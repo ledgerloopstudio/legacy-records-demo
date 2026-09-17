@@ -723,7 +723,7 @@ function render() {
       el("div", { "class": "brand" }, el("span", { "class": "dot" }) +
         el("span", {}, "Legacy &amp; Emergency Records" + el("small", {}, "LEDGERLOOPSTUDIO"))) +
       el("div", { "class": "tabs" }, tabs +
-        el("button", { "class": "tab", "data-dark": "1" }, STATE.settings.dark === "1" ? "☀ Light" : "☾ Dark"))) +
+        el("button", { "class": "tab", "data-toggledark": "1" }, STATE.settings.dark === "1" ? "☀ Light" : "☾ Dark"))) +
     el("div", { "class": "wrap" }, body +
       el("div", { "class": "foot" }, "Works offline · no account · no subscription · your records stay in this browser<br>" +
         "This organises records. It is not legal or financial advice.")) +
@@ -747,7 +747,7 @@ document.addEventListener("click", function (ev) {
 
   if (g("data-tab")) { VIEW = g("data-tab"); MODAL = null; EDIT = null; render(); return; }
   if (g("data-sec")) { SEC = g("data-sec"); render(); return; }
-  if (g("data-dark")) {
+  if (g("data-toggledark")) {
     STATE.settings.dark = STATE.settings.dark === "1" ? "0" : "1";
     document.documentElement.setAttribute("data-dark", STATE.settings.dark); save(); render(); return;
   }
