@@ -93,9 +93,11 @@ label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bot
 .demo-banner a{color:#fff;text-decoration:underline}
 .demo-banner .x{position:absolute;right:10px;top:6px;background:none;border:none;color:#fff;font:inherit;cursor:pointer;opacity:.85;padding:4px 8px}
 .demo-banner .x:hover{opacity:1}
+.buildstamp{max-width:1180px;margin:0 auto;padding:4px 22px 30px;color:#8A9AA5;font-size:11px;letter-spacing:.04em;text-align:right}
 </style></head><body>
-<div class="demo-banner" id="demoBanner">DEMO — example data, add up to 15 of your own records and see whether it thinks the way you do. Nothing is saved permanently and it can reset any time. <a href="https://www.etsy.com/shop/LedgerLoopStudio" target="_blank" rel="noopener">Buy the full version</a> for your own unlimited, permanent copy.<button class="x" onclick="document.getElementById('demoBanner').style.display='none'" aria-label="Dismiss">✕</button></div>
+<div class="demo-banner" id="demoBanner">DEMO â example data, add up to 15 of your own records and see whether it thinks the way you do. Nothing is saved permanently and it can reset any time. <a href="https://www.etsy.com/shop/LedgerLoopStudio" target="_blank" rel="noopener">Buy the full version</a> for your own unlimited, permanent copy.<button class="x" onclick="document.getElementById('demoBanner').style.display='none'" aria-label="Dismiss">â</button></div>
 <div id="app"></div>
+<div class="buildstamp noprint">Legacy &amp; Emergency Records &middot; build 2026-09-18 &middot; LedgerLoopStudio</div>
 <script id="engine">
 /* ===== ENGINE: pure functions, no DOM. Unit-testable in plain Node. =====
    Legacy & Emergency Records Organizer.
@@ -167,7 +169,7 @@ function missingFields(r) {
 }
 
 /* Stale = reviewed longer ago than REVIEW_MONTHS. Never reviewed is "unknown",
-   not stale — the gap detector reports that separately. */
+   not stale â the gap detector reports that separately. */
 function isStale(r, todayISO, months) {
   var limit = months === undefined ? REVIEW_MONTHS : months;
   if (!r || !r.reviewed) return false;
@@ -202,7 +204,7 @@ function readinessScore(records) {
   return Math.round((records.filter(isComplete).length / records.length) * 100);
 }
 
-/* THE GAP DETECTOR — the thing a static printable cannot do.
+/* THE GAP DETECTOR â the thing a static printable cannot do.
    Returns an ordered list of concrete, actionable gaps. */
 function gaps(records, todayISO) {
   var out = [];
@@ -341,7 +343,7 @@ var DEMO_MODE = true, DEMO_RECORD_LIMIT = 28; /* 13 seeded + 15 room to try addi
 function demoLimitReached(){
   if(!DEMO_MODE) return false;
   if(!STATE || !STATE.records || STATE.records.length < DEMO_RECORD_LIMIT) return false;
-  alert("You've reached the "+DEMO_RECORD_LIMIT+"-record demo limit.\n\nThis is just a preview — buy the full version for unlimited records, all features unlocked, and your own permanent copy.");
+  alert("You've reached the "+DEMO_RECORD_LIMIT+"-record demo limit.\n\nThis is just a preview â buy the full version for unlimited records, all features unlocked, and your own permanent copy.");
   return true;
 }
 var STATE = null, VIEW = "dash", MODAL = null, EDIT = null, SEC = "documents";
@@ -441,7 +443,7 @@ function viewDash() {
       el("i", { "class": r.readiness >= 80 ? "" : r.readiness >= 50 ? "warn" : "bad", style: "width:" + r.readiness + "%" }))) +
       el("b", {}, r.readiness + "%")) +
     el("div", { "class": "note" }, r.otherGaps + " other item" + (r.otherGaps === 1 ? "" : "s") +
-      " still to complete" + (r.nextReview ? " · oldest record last reviewed before " + esc(r.nextReview) : "")));
+      " still to complete" + (r.nextReview ? " Â· oldest record last reviewed before " + esc(r.nextReview) : "")));
 
   var critCard = el("div", { "class": "card" }, el("h3", {}, "Fix these first") +
     (crit.length
@@ -459,7 +461,7 @@ function viewDash() {
       el("td", {}, d.count) +
       el("td", { style: "width:45%" }, el("div", { "class": "bar" },
         el("i", { "class": pct >= 80 ? "" : pct >= 50 ? "warn" : "bad", style: "width:" + pct + "%" }))) +
-      el("td", {}, d.count ? pct + "%" : "—"));
+      el("td", {}, d.count ? pct + "%" : "â"));
   }).join("");
 
   var secCard = el("div", { "class": "card" }, el("h3", {}, "Section by section") +
@@ -477,15 +479,15 @@ function recordRow(r, withSection) {
     (withSection ? el("td", {}, el("span", { "class": "pill" }, esc(secLabel(r.section)))) : "") +
     el("td", {}, el("b", {}, esc(r.title || "Untitled")) +
       (r.notes ? el("div", { "class": "note" }, esc(r.notes)) : "")) +
-    el("td", {}, esc(r.location || "—")) +
-    el("td", {}, esc(r.reference || "—")) +
-    el("td", {}, esc(r.contact || "—")) +
-    el("td", {}, esc(r.reviewed || "—")) +
-    el("td", {}, r.inBinder ? el("span", { "class": "pill blue" }, "Yes") : "—") +
+    el("td", {}, esc(r.location || "â")) +
+    el("td", {}, esc(r.reference || "â")) +
+    el("td", {}, esc(r.contact || "â")) +
+    el("td", {}, esc(r.reviewed || "â")) +
+    el("td", {}, r.inBinder ? el("span", { "class": "pill blue" }, "Yes") : "â") +
     el("td", {}, statusPill(r)) +
     el("td", { style: "text-align:right;white-space:nowrap" },
       el("button", { "class": "btn ghost sm", "data-edit": r.id }, "Edit") + " " +
-      el("button", { "class": "btn danger sm", "data-del": r.id }, "×")));
+      el("button", { "class": "btn danger sm", "data-del": r.id }, "Ã")));
 }
 
 function recordTable(list, withSection) {
@@ -506,7 +508,7 @@ function viewRecords() {
     return String(a.title || "").localeCompare(String(b.title || ""));
   });
   return el("h2", {}, "All Records") +
-    el("div", { "class": "sub" }, "Every record in one table. \"Where it is\" is the most important column — it is what a family actually needs.") +
+    el("div", { "class": "sub" }, "Every record in one table. \"Where it is\" is the most important column â it is what a family actually needs.") +
     el("div", { "class": "row", style: "margin-bottom:12px" },
       el("button", { "class": "btn", "data-new": "1" }, "+ Add record") +
       el("button", { "class": "btn ghost", "data-csv": "1" }, "Export CSV")) +
@@ -527,7 +529,7 @@ function viewSections() {
     el("div", { "class": "sub" }, "Work through one section at a time. The five marked \"key\" are what a family needs first.") +
     el("div", { "class": "row", style: "margin-bottom:12px" }, tabs) +
     el("div", { "class": "card" },
-      el("h3", {}, esc(s ? s.label : SEC) + (s && s.critical ? " — key section" : "")) +
+      el("h3", {}, esc(s ? s.label : SEC) + (s && s.critical ? " â key section" : "")) +
       el("div", { "class": "row", style: "margin-bottom:10px" },
         el("span", { "class": "pill" }, mine.length + " record" + (mine.length === 1 ? "" : "s")) + " " +
         el("span", { "class": "pill " + (pct === null ? "" : pct === 100 ? "ok" : "amber") },
@@ -564,7 +566,7 @@ function viewGaps() {
       "A key section with no records is the biggest gap there is.") +
     el("div", { style: "height:14px" }) +
     block("Records missing information", byKind["incomplete-record"],
-      "A record without a location tells a family the thing exists but not where to find it — that is why it counts as critical.") +
+      "A record without a location tells a family the thing exists but not where to find it â that is why it counts as critical.") +
     el("div", { style: "height:14px" }) +
     block("Records that need re-checking", byKind["stale-record"],
       "Accounts close, policies lapse and people move. Anything over " + REVIEW_MONTHS + " months old is worth confirming.");
@@ -597,7 +599,7 @@ function viewWishes() {
       el("h3", {}, "Before you fill this in") +
       el("div", { "class": "note" },
         "This section records <b>where your wishes are written and what they broadly are</b>. It is not a will and it is not a legal document. " +
-        "For anything that has to be legally binding — a will, an advance directive, power of attorney — speak to a qualified professional in your own country and note here where that document is kept.")) +
+        "For anything that has to be legally binding â a will, an advance directive, power of attorney â speak to a qualified professional in your own country and note here where that document is kept.")) +
     el("div", { style: "height:14px" }) +
     el("div", { "class": "row", style: "margin-bottom:12px" },
       el("button", { "class": "btn", "data-new-sec": "wishes" }, "+ Add a wish or preference")) +
@@ -614,8 +616,8 @@ function viewBinder() {
       el("div", { "class": "tblwrap" }, el("table", {},
         el("tr", {}, ["Record", "Where it is", "Reference", "Contact"].map(function (h) { return el("th", {}, h); }).join("")) +
         groups[s.id].map(function (r) {
-          return el("tr", {}, el("td", {}, esc(r.title)) + el("td", {}, esc(r.location || "—")) +
-            el("td", {}, esc(r.reference || "—")) + el("td", {}, esc(r.contact || "—")));
+          return el("tr", {}, el("td", {}, esc(r.title)) + el("td", {}, esc(r.location || "â")) +
+            el("td", {}, esc(r.reference || "â")) + el("td", {}, esc(r.contact || "â")));
         }).join(""))));
   }).join('<div style="height:14px"></div>');
 
@@ -629,7 +631,7 @@ function viewBinder() {
       "Edit a record and tick \"include in printed binder\" to build the pack."))) +
     el("div", { style: "height:14px" }) +
     el("div", { "class": "card" }, el("h3", {}, "A note on what to print") +
-      el("div", { "class": "note" }, "Print the pack, not your passwords. This file deliberately has no password field — " +
+      el("div", { "class": "note" }, "Print the pack, not your passwords. This file deliberately has no password field â " +
         "record <i>where</i> the password manager is and keep the master password somewhere separate and sealed."));
 }
 
@@ -638,7 +640,7 @@ function viewReports() {
   var secRows = SECTIONS.map(function (s) {
     var d = r.sections[s.id];
     return el("tr", {}, el("td", {}, esc(s.label)) + el("td", {}, d.count) +
-      el("td", {}, d.complete) + el("td", {}, d.count ? d.pct + "%" : "—") +
+      el("td", {}, d.complete) + el("td", {}, d.count ? d.pct + "%" : "â") +
       el("td", {}, s.critical ? "key" : ""));
   }).join("");
 
@@ -723,9 +725,9 @@ function render() {
       el("div", { "class": "brand" }, el("span", { "class": "dot" }) +
         el("span", {}, "Legacy &amp; Emergency Records" + el("small", {}, "LEDGERLOOPSTUDIO"))) +
       el("div", { "class": "tabs" }, tabs +
-        el("button", { "class": "tab", "data-toggledark": "1" }, STATE.settings.dark === "1" ? "☀ Light" : "☾ Dark"))) +
+        el("button", { "class": "tab", "data-toggledark": "1" }, STATE.settings.dark === "1" ? "â Light" : "â¾ Dark"))) +
     el("div", { "class": "wrap" }, body +
-      el("div", { "class": "foot" }, "Works offline · no account · no subscription · your records stay in this browser<br>" +
+      el("div", { "class": "foot" }, "Works offline Â· no account Â· no subscription Â· your records stay in this browser<br>" +
         "This organises records. It is not legal or financial advice.")) +
     (MODAL === "record" ? el("div", { "class": "modal", "data-modal": "1" }, modalRecord()) : "");
 }
